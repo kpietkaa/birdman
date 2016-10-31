@@ -14,6 +14,8 @@
       %span Sex:
       - if @animal.sex?
         Male
+      - elsif @animal.sex.nil?
+        Don't know
       - else
         Female
     %p
@@ -27,3 +29,7 @@
     %p
       %span Birth date:
       = @animal.birth_date.strftime("%d %B %Y")
+    .links.btn-group
+      = link_to "Edit", edit_animal_path(@animal), class: "btn btn-info"
+      = link_to "Delete", animal_path(@animal), method: :delete,
+        data: { confirm: "Are you sure?" }, class: "btn btn-danger"
