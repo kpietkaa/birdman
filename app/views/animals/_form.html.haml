@@ -1,7 +1,7 @@
 = simple_form_for @animal do |f|
   =f.input :name
-  =f.input :animal_type, collection: Hash[ Animal.animal_types.map { |key,
-  val| [ key.split('_').first.capitalize, key ] } ], prompt: "Choose a breed"
+  =f.input :animal_type do
+    =f.select :animal_type, @animals, { include_blank: true }, {class: 'form-control'}
   =f.input :breed
   =f.label :sex
   =f.collection_radio_buttons :sex, [[true, 'Male'], [false, 'Female']],
