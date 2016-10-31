@@ -1,6 +1,8 @@
 class AnimalsController < ApplicationController
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
+  before_action :animal_type_map, only: [:new, :edit]
   def index
+    @animals = Animal.order("created_at DESC")
   end
 
   def show
@@ -20,7 +22,6 @@ class AnimalsController < ApplicationController
   end
 
   def edit
-    @animals = Animal.animal_types.map{ |key, val| [ key.split('_').first.capitalize, key ] }
   end
 
   def update
@@ -31,13 +32,25 @@ class AnimalsController < ApplicationController
     end
   end
 
+  def destroy
+    if @animal.destroy
+      redirect_to animals_path, notice: 'Animal has been deleted'
+    end
+  end
+
   private
 
   def animal_params
-    params.require(:animal).permit(:name, :animal_type, :breed, :sex, :castration, :birth_date)
+    params.require(:animal).permit(:name, :animal_type, :breed,
+      :sex, :castration, :birth_date)
   end
 
   def find_animal
     @animal = Animal.find(params[:id])
+  end
+
+  def animal_type_map
+    @animals = Animal.animal_types.map{ |key, val| [
+      key.split('_').first.capitalize, key ] }
   end
 end
