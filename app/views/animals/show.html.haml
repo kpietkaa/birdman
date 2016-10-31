@@ -1,0 +1,29 @@
+.row
+  .col-md-8.col-md-offset-2
+    %h1 Animal information
+    %h3
+      %span Animal name:
+      = @animal.name
+    %h3
+      %span Animal type:
+      = @animal.animal_type.capitalize
+    %h3
+      %span Animal breed:
+      = @animal.breed.capitalize
+    %p
+      %span Sex:
+      - if @animal.sex?
+        Male
+      - else
+        Female
+    %p
+      %span Castration:
+      - if @animal.castration == 0
+        No
+      - elsif @animal.castration = 1
+        Yes
+      - else
+        Don't know
+    %p
+      %span Birth date:
+      = @animal.birth_date.strftime("%d %B %Y")
