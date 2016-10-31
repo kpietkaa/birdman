@@ -1,16 +1,3 @@
 %h1 Edit Animal!
-= simple_form_for @animal do |f|
-  =f.input :name
-  =f.input :animal_type do
-    =f.select :animal_type, @animals, include_blank: true
-  =f.input :breed
-  =f.label :sex
-  =f.collection_radio_buttons :sex, [[true, 'Male'], [false, 'Female']],
-  :first, :last
-  %br
-  =f.label :castration
-  =f.collection_radio_buttons :castration, [[1, "Yes"], [0, "No"], [2, "Don't know"]],
-  :first, :last
-  =f.input :birth_date, as: :date, start_year: Date.today.year - 90,
-  end_year: Date.today.year, order: [:day, :month, :year]
-  =f.submit
+
+= render 'form'
