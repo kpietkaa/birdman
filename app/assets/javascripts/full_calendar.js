@@ -21,6 +21,21 @@ initialize_calendar = function() {
         });
 
         calendar.fullCalendar('unselect');
+      },
+
+      eventDrop: function(event, delta, revertFunc) {
+        event_data = {
+          event: {
+            id: event.id,
+            start_at: event.start.format(),
+            end_at: event.end.format()
+          }
+        };
+        $.ajax({
+            url: event.update_url,
+            data: event_data,
+            type: 'PATCH'
+        });
       }
 
 
