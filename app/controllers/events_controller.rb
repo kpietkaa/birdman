@@ -21,6 +21,7 @@ class EventsController < ApplicationController
   end
 
   def update
+    update_event_date(event_params)
     @event.update(event_params)
   end
 
@@ -41,5 +42,10 @@ class EventsController < ApplicationController
   def change_range_to_date
     @event.start_at = @event.date_range.tr('/','-').split(' - ')[0]
     @event.end_at = @event.date_range.tr('/','-').split(' - ')[1]
+  end
+
+  def update_event_date(event_params)
+    @event.start_at = event_params[:start_at]
+    @event.end_at = event_params[:end_at]
   end
 end
