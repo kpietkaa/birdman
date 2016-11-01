@@ -13,6 +13,7 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
+    change_range_to_date
     @event.save
   end
 
@@ -35,5 +36,10 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find(params[:id])
+  end
+
+  def change_range_to_date
+    @event.start_at = @event.date_range.tr('/','-').split(' - ')[0]
+    @event.end_at = @event.date_range.tr('/','-').split(' - ')[1]
   end
 end
