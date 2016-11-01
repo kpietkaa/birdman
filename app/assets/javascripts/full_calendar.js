@@ -12,6 +12,7 @@ initialize_calendar = function() {
       selectHelper: true,
       editable: true,
       eventLimit: true,
+      events: '/events.json',
 
       // Create event
       select: function(start, end) {
