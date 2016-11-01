@@ -36,8 +36,14 @@ initialize_calendar = function() {
             data: event_data,
             type: 'PATCH'
         });
-      }
+      },
 
+      eventClick: function(event, jsEvent, view) {
+        $.getScript(event.edit_url, function() {
+          $('#event_date_range').val(moment(event.start).format("YYYY/MM/DD HH:mm") + ' - ' + moment(event.end).format("YYYY/MM/DD HH:mm"))
+          date_range_picker();
+        });
+      }
 
     });
   })
