@@ -11,7 +11,19 @@ initialize_calendar = function() {
       selectable: true,
       selectHelper: true,
       editable: true,
-      eventLimit: true
+      eventLimit: true,
+
+      // Create event
+      select: function(start, end) {
+        $.getScript('event/new', function() {
+          $('#event_date_range').val(moment(start).format("MM/DD/YYYY HH:mm") + ' - ' + moment(end).format("MM/DD/YYYY HH:mm"))
+          date_range_picker();
+          $('.start_hidden').val(moment(start).format('YYYY-MM-DD HH:mm'));
+          $('.end_hidden').val(moment(end).format('YYYY-MM-DD HH:mm'));
+        });
+
+        calendar.fullCalendar('unselect');
+      }
 
 
     });
