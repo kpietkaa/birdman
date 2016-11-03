@@ -6,20 +6,26 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body id="<%= params[:controller].parameterize %>_controller">
+
   <% if flash[:notice] %>
     <div class="alert alert-info">
       <%= flash[:notice] %>
     </div>
   <% end %>
+
   <% if flash[:alert] %>
     <div class="alert alert-danger">
       <%= flash[:alert] %>
     </div>
   <% end %>
+
+  <%= render 'layouts/navbar' %>
+
   <div class="container-fluid">
     <%= yield %>
     <div id="remote_container"></div>
   </div>
+
 </body>
 </html>
