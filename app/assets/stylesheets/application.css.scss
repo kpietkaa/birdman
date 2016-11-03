@@ -14,3 +14,15 @@
  */
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+.navbar-header {
+ .navbar-brand-custom {
+   float: left;
+   padding-right: 15px;
+   font-size: 18px;
+   line-height: 20px;
+   height: 50px;
+   color: #9d9d9d;
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ }
+}
