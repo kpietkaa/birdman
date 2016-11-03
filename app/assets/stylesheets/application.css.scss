@@ -24,5 +24,19 @@
    height: 50px;
    color: #9d9d9d;
    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+   text-decoration: none;
  }
+}
+
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+  .active {
+    width: 12em;
+  }
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
 }
