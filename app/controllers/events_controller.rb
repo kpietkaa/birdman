@@ -38,7 +38,11 @@ class EventsController < ApplicationController
   end
 
   def find_event
-    @event = Event.where(user_id: current_user.id).find(params[:id])
+    unless current_user.role == 'admin'
+      @event = Event.where(user_id: current_user.id).find(params[:id])
+    else
+      @event = Event.find(params[:id])
+    end
   end
 
   def change_range_to_date

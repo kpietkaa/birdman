@@ -1,6 +1,6 @@
 .row
-  .col-md-8.col-md-offset-2
-    %h1 All Animals
+  .col-md-4
+    %h1 My Animals
     - @animals.each do |animal|
       %h3
         %span Animal name:
@@ -10,3 +10,5 @@
         = animal.animal_type.capitalize + " | "
         %span Animal breed:
         = animal.breed
+  .col-md-8
+    .calendar
