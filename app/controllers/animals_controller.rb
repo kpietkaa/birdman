@@ -1,4 +1,5 @@
 class AnimalsController < ApplicationController
+  load_and_authorize_resource
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
   before_action :animal_type_map, only: [:new, :edit]
   def index
