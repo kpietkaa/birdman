@@ -32,7 +32,9 @@
       	<% if signed_in? %>
 	      	<li><%= link_to current_user.email, edit_user_registration_path %></li>
 	    	<li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
-	     	<li><%= link_to "Admin", admin_root_path %></li>
+        <% if current_user.role == 'admin' %>
+	        <li><%= link_to "Admin", admin_root_path %></li>
+        <% end %>
 		<% else %>
     		<li><%= link_to "Sign in", new_user_session_path %></li>
 		<% end %>
