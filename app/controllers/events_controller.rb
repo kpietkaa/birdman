@@ -9,6 +9,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    authorize! :new, @event
   end
 
   def create
