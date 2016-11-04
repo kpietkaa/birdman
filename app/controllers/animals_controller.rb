@@ -1,20 +1,21 @@
 class AnimalsController < ApplicationController
   load_and_authorize_resource
+  before_action :authenticate_user!
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
   before_action :animal_type_map, only: [:new, :edit]
   def index
-    @animals = Animal.order("created_at DESC")
+    @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
   end
 
   def show
   end
 
   def new
-    @animal = Animal.new
+    @animal = current_user.animals.build
   end
 
   def create
-    @animal = Animal.new(animal_params)
+    @animal = current_user.animals.build(animal_params)
     if @animal.save
       redirect_to @animal, notice: 'Animal has been created'
     else
@@ -47,7 +48,7 @@ class AnimalsController < ApplicationController
   end
 
   def find_animal
-    @animal = Animal.find(params[:id])
+    @animal = Animal.where(user_id: current_user.id).find(params[:id])
   end
 
   def animal_type_map

@@ -1,7 +1,11 @@
 json.array! @events do |event|
   date_format = event.all_day_event? ? '%Y-%m-%d' : '%Y-%m-%dT%H:%M:%S'
   json.id event.id
-  json.title event.title
+  if event.user_id == current_user.id || current_user.role == 'admin'
+    json.title event.title
+  else
+    json.title 'Appointment'
+  end
   json.start event.start_at.strftime(date_format)
   json.end event.end_at.strftime(date_format)
   json.color event.event_type unless event.event_type.blank?

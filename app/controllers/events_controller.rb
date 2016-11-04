@@ -8,11 +8,12 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
+    @event = current_user.events.build
+    authorize! :new, @event
   end
 
   def create
-    @event = Event.new(event_params)
+    @event = current_user.events.build(event_params)
     change_range_to_date
     @event.save
   end
@@ -37,7 +38,11 @@ class EventsController < ApplicationController
   end
 
   def find_event
-    @event = Event.find(params[:id])
+    unless current_user.role == 'admin'
+      @event = Event.where(user_id: current_user.id).find(params[:id])
+    else
+      @event = Event.find(params[:id])
+    end
   end
 
   def change_range_to_date

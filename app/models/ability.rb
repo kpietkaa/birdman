@@ -8,8 +8,8 @@ class Ability
     elsif user.role == 'doctor'
       can :manage, :all
     elsif user.role == 'user'
-      can :read, Animal
-      can :read, Event
+      can :manage, Animal
+      can :manage, Event
       can :read, Visitor
     else
       can :read, :all
