@@ -11,6 +11,8 @@
  * file per style scope.
  *
  *= require fullcalendar
+ *= require bootstrap
+ *= require font_awesome
  */
  @import "bootstrap-sprockets";
  @import "bootstrap";
