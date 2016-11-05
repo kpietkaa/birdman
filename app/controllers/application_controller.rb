@@ -11,13 +11,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # unless Rails.application.config.consider_all_requests_local
-  rescue_from Exception, with: :record_not_found
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  rescue_from ActionController::RoutingError, with: :record_not_found
-  rescue_from CanCan::AccessDenied, with: :record_not_found
-
-  # end
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from Exception, with: :record_not_found
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from ActionController::RoutingError, with: :record_not_found
+    rescue_from CanCan::AccessDenied, with: :record_not_found
+  end
 
   def record_not_found
     render file: "#{Rails.root}/public/404.html",  :status => 404
