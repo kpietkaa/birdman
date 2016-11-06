@@ -13,6 +13,16 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <% if signed_in? %>
+            <ul class="nav navbar-nav navbar-left">
+              <li>
+                <%= link_to "Add Animal", new_animal_path, class: "page-scroll" %>
+              </li>
+              <li>
+                <%= link_to "New Appointment", new_event_path, class: "page-scroll" %>
+              </li>
+            </ul>
+          <% end %>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a class="page-scroll" href="#about">About</a>
@@ -28,6 +38,9 @@
                 </li>
                 <% unless request.original_url.include? "users" %>
                   <% if signed_in? %>
+                    <li>
+                      <a class="page-scroll", href="/">User Panel</a>
+                    </li>
                     <li class="disabled">
                       <a class="page-scroll"> Signed in as: <%= current_user.email %></a>
                     </li>
@@ -42,7 +55,7 @@
                     <% end %>
                   <% else %>
                   <li>
-                    <a class="page-scroll", href="users/sign_in">Sign In</a>
+                    <%= link_to new_user_session_path, "Sign In", class: "page-scroll" %>
                   </li>
                   <% end %>
                 <% end %>
