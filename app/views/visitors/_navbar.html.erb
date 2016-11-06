@@ -27,14 +27,20 @@
                     <a class="page-scroll" href="#contact">Contact</a>
                 </li>
                 <% if signed_in? %>
-                  <li class="disabled">
-                    <a class="page-scroll"> Signed in as: <%= current_user.email %></a>
-                  </li>
+                  <% if request.original_url.include? "home" %>
+                    <li>
+                      <a class="page-scroll", href="/">User Panel</a>
+                    </li>
+                  <% else %>
+                    <li class="disabled">
+                      <a class="page-scroll"> Signed in as: <%= current_user.email %></a>
+                    </li>
+                  <% end %>
                   <li>
                     <%= link_to "Settings", edit_user_registration_path %>
                   </li>
                   <li>
-                    <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+                    <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
                   </li>
                   <% if current_user.role == 'admin' %>
                     <li><a class="page-scroll", href="/admin">Admin</a></li>
