@@ -7,7 +7,7 @@
         = link_to animal.name, animal
       %p
         %span Animal type:
-        = animal.animal_type.capitalize + " | "
+        = animal.animal_type.capitalize.tr('_', ' ') + " | "
         %span Animal breed:
         = animal.breed
   .col-md-8
