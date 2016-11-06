@@ -4,15 +4,31 @@ initialize_calendar = function() {
     var calendar = $(this);
     calendar.fullCalendar({
       header: {
+        defaultView: 'agendaWeek',
         left: 'prev,next today',
         center: 'title',
-        right: 'month,agendaWeek,agendaDay'
+        right: 'agendaWeek,month,agendaDay,list'
       },
+      allDaySlot: false,
+      weekends: false,
+      minTime: '07:00',
+      maxTime: '21:00',
+      height: 693,
+      defaultView: 'agendaWeek',
       selectable: true,
       selectHelper: true,
       editable: true,
       eventLimit: true,
+      businessHours: {
+        dow: [ 1, 2, 3, 4, 5 ],
+        start: '09:00',
+        end: '18:00',
+      },
+      firstDay: 1,
+      eventDurationEditable: false,
+      eventStartEditable: false,
       events: '/events.json',
+
 
       // Create event
       select: function(start, end) {

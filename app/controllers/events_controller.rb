@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.build(event_params)
     change_range_to_date
-    @event.save
+    time_validator
   end
 
   def edit
@@ -24,7 +24,7 @@ class EventsController < ApplicationController
   def update
     @event.update(event_params)
     change_range_to_date
-    @event.save
+    time_validator
   end
 
   def destroy
@@ -48,5 +48,29 @@ class EventsController < ApplicationController
   def change_range_to_date
     @event.start_at = @event.date_range.tr('/','-').split(' - ')[0]
     @event.end_at = @event.date_range.tr('/','-').split(' - ')[1]
+  end
+
+  def time_validator
+    unless weekend?
+      if @event.start_at.hour < 9 || @event.start_at.hour > 18
+        time_alert
+      elsif @event.end_at.hour > 18
+        time_alert
+      elsif @event.end_at.hour == 18 && @event.end_at.hour > 0
+        time_alert
+      else
+        @event.save
+      end
+    else
+      redirect_to :back, alert: 'We are close on Saturdays and Sundays :)'
+    end
+  end
+
+  def weekend?
+    @event.start_at.saturday? || @event.start_at.sunday?
+  end
+
+  def time_alert
+    redirect_to :back, alert: 'We are closed at that time , Please select other time , 9 to 17 :)'
   end
 end

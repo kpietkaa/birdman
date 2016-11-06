@@ -53,6 +53,6 @@ class AnimalsController < ApplicationController
 
   def animal_type_map
     @animals = Animal.animal_types.map{ |key, val| [
-      key.split('_').first.capitalize, key ] }
+      key.capitalize.tr('_', ' '), key ] }
   end
 end
