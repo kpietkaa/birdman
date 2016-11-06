@@ -12,9 +12,12 @@ class User < ActiveRecord::Base
     role.include? r.to_s
   end
 
+  def full_name
+    self.first_name + ' ' + self.last_name
+  end
+
   private
   def set_default_role
     self.role ||= 'user'
-    binding.pry
   end
 end

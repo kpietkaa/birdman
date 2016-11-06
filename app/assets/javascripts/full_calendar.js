@@ -28,6 +28,7 @@ initialize_calendar = function() {
       eventDurationEditable: false,
       eventStartEditable: false,
       events: '/events.json',
+      timeFormat: 'HH:mm',
 
 
       // Create event

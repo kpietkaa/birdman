@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :find_event, only: [ :show, :edit, :update, :destroy ]
+  before_action :find_doctor, only: [ :new, :edit ]
   def index
     @events = Event.where(start_at: params[:start]..params[:end])
   end
@@ -34,7 +35,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :date_range, :start_at, :end_at, :event_type)
+    params.require(:event).permit(:title, :date_range, :start_at, :end_at, :event_type, :doctor_id)
   end
 
   def find_event
@@ -72,5 +73,9 @@ class EventsController < ApplicationController
 
   def time_alert
     redirect_to :back, alert: 'We are closed at that time , Please select other time , 9 to 17 :)'
+  end
+
+  def find_doctor
+    @doctors = User.all.select{|u| u.role=='doctor' }.map{ |u| [ u.full_name, u.id ] }
   end
 end
