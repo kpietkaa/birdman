@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   belongs_to :user
+  belongs_to :vist_type
   validates :title, presence: true
   attr_accessor :date_range
 
