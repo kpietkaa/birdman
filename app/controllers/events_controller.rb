@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :find_event, only: [ :show, :edit, :update, :destroy ]
   before_action :find_doctor, only: [ :new, :edit ]
   before_action :find_animal, only: [ :new, :edit ]
-  before_action :map_visit_type, only: [ :new, :edit ]
+  before_action :map_visit_type, only: [ :new, :edit, :create, :update ]
   def index
     @events = Event.where(start_at: params[:start]..params[:end])
   end
@@ -18,6 +18,7 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.build(event_params)
     change_range_to_date
+    right_time_to_event
     time_validator
   end
 
@@ -27,6 +28,7 @@ class EventsController < ApplicationController
   def update
     @event.update(event_params)
     change_range_to_date
+    right_time_to_event
     time_validator
   end
 
@@ -86,6 +88,14 @@ class EventsController < ApplicationController
   end
 
   def map_visit_type
-    @visit_types = VisitType.all.map { |v| [ v.visit, v.color ] }
+    @visit_types = VisitType.all.map { |v| [ v.visit, v.duration, v.color ] }
   end
+
+  def right_time_to_event
+    unless @event.event_type.empty?
+      duration = @visit_types.select{ |v| v[2] == @event.event_type }[0][1]
+      @event.end_at = @event.start_at + duration*60
+    end
+  end
+
 end
