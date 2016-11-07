@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :animals
   has_many :events
+  belongs_to :address
 
   before_create :set_default_role
   # Include default devise modules. Others available are:
