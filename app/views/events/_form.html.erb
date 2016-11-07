@@ -10,7 +10,9 @@
     <%= f.input :doctor_id do %>
     <%= f.select :doctor_id, @doctors, { include_blank: false }, {class: "form-control" }  %>
     <% end %>
-    <%= f.input :event_type, as: :select, collection: [['Visit type: I','black'], ['Visit type: II','green'], ['Visit type: III','red']] %>
+    <%= f.input :event_type do %>
+    <%= f.select :event_type, @visit_types, { include_blank: true }, {class: "form-control" } %>
+    <% end %>
   </div>
 
   <div class="form-actions">

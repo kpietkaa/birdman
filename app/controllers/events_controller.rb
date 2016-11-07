@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   before_action :find_event, only: [ :show, :edit, :update, :destroy ]
   before_action :find_doctor, only: [ :new, :edit ]
   before_action :find_animal, only: [ :new, :edit ]
+  before_action :map_visit_type, only: [ :new, :edit ]
   def index
     @events = Event.where(start_at: params[:start]..params[:end])
   end
@@ -82,5 +83,9 @@ class EventsController < ApplicationController
 
   def find_animal
     @animals = Animal.all.select{ |a| a.user_id == current_user.id}.map{ |a| [ a.name, a.id ] }
+  end
+
+  def map_visit_type
+    @visit_types = VisitType.all.map { |v| [ v.visit, v.color ] }
   end
 end
