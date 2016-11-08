@@ -4,7 +4,9 @@ class AnimalsController < ApplicationController
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
   before_action :animal_type_map, only: [:new, :edit]
   def index
+    binding.pry
     @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
+    create_events
   end
 
   def show
@@ -55,4 +57,19 @@ class AnimalsController < ApplicationController
     @animals = Animal.animal_types.map{ |key, val| [
       key.capitalize.tr('_', ' '), key ] }
   end
+
+  def create_events
+    visit_hash = Hash[VisitType.all.map{ |v| [v.title, v.color] }]
+    docotr_hash = Hash[@doctors = User.all.select{|u| u.role=='doctor' }.map{ |u| [ u.full_name, u.id ] }]
+    aniaml_hash = Hash[Animal.all.select{ |a| a.user_id == current_user.id}.map{ |a| [ a.name, a.id ] }]
+    @events = Event.all.order("start_at").select{ |e|
+      if e.user_id == current_user.id && e.start_at > Time.now
+        e.event_type = visit_hash.key(e.event_type)
+        e.doctor_name = docotr_hash.key(e.doctor_id)
+        e.animal_name = aniaml_hash.key(e.animal_id)
+      end
+    }
+  end
+
+
 end

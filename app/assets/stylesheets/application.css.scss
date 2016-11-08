@@ -17,6 +17,15 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
+.row .remiders {
+  margin: 5em 5em 3em 3em;
+  border-bottom: thin solid grey;
+}
+
 .row .col-md-4 h2 {
   text-align: center;
+}
+
+.row .col-md-8 {
+  border-left: thin solid grey;
 }

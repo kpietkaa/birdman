@@ -1,18 +1,38 @@
 .row
-  .col-md-4
-    %h2 My Animals
-    - if @animals.empty?
-      %h3
-        %span Don't by shy...
-        = link_to "Add your beast :)", new_animal_path
-    - @animals.each do |animal|
-      %h3
-        %span Animal name:
-        = link_to animal.name, animal
-      %p
-        %span Animal type:
-        = animal.animal_type.capitalize.tr('_', ' ') + " || "
-        %span Animal breed:
-        = animal.breed
-  .col-md-8
-    .calendar
+  .col-md-12
+    .remiders
+      %h2 Your remiders
+      %ul
+        - @events.each do |event|
+          %li
+            .jakis-div
+              %h3
+                %span Visit Title:
+                = event.title
+                %span || Time to visit:
+                = distance_of_time_in_words(Time.now, event.start_at)
+            %p
+              %span Visit type:
+              = event.event_type + ' || '
+              %span Doctor:
+              = event.doctor_name + ' || '
+              %span Beast:
+              = event.animal_name
+
+    .col-md-4
+      %h2 My Animals
+      - if @animals.empty?
+        %h3
+          %span Don't by shy...
+          = link_to "Add your beast :)", new_animal_path
+      - @animals.each do |animal|
+        %h3
+          %span Animal name:
+          = link_to animal.name, animal
+        %p
+          %span Animal type:
+          = animal.animal_type.capitalize.tr('_', ' ') + " || "
+          %span Animal breed:
+          = animal.breed
+    .col-md-8
+      .calendar
