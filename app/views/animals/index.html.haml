@@ -1,13 +1,17 @@
 .row
   .col-md-4
-    %h1 My Animals
+    %h2 My Animals
+    - if @animals.empty?
+      %h3
+        %span Don't by shy...
+        = link_to "Add your beast :)", new_animal_path
     - @animals.each do |animal|
       %h3
         %span Animal name:
         = link_to animal.name, animal
       %p
         %span Animal type:
-        = animal.animal_type.capitalize.tr('_', ' ') + " | "
+        = animal.animal_type.capitalize.tr('_', ' ') + " || "
         %span Animal breed:
         = animal.breed
   .col-md-8
