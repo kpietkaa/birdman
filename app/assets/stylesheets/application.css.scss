@@ -17,15 +17,48 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
-.row .remiders {
-  margin: 5em 5em 3em 3em;
-  border-bottom: thin solid grey;
+
+.remider h2 {
+  margin-top: 2em;
+  margin-left: 4em;
 }
 
-.row .col-md-4 h2 {
-  text-align: center;
+.cal {
+  margin-top: 5em;
 }
 
-.row .col-md-8 {
-  border-left: thin solid grey;
+.mycontainer {
+  border-top: 5px solid #e7e7e7;
+}
+
+body {
+ 	font-family: 'Lato', sans-serif;
+background: #abbaab; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #abbaab , #ffffff); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #abbaab , #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ }
+
+ a {
+ 	color: darken(#e7e7e7, 70%);
+ }
+
+ button, .button {
+ 	border: none;
+ 	outline: none;
+ 	background: #D9534F;
+ 	padding: 1rem 3.5rem;
+ 	border-radius: 0.1rem;
+ 	color: #FFF;
+
+ }
+ h4 {
+   margin-top: 0px;
+ }
+
+.event {
+	border-bottom: 1px solid #e7e7e7;
+	.event-title {
+		font-family: 'Lato', sans-serif;
+		margin-top: 0;
+	}
 }
