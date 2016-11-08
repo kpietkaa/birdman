@@ -1,38 +1,72 @@
-.row
-  .col-md-12
-    .remiders
-      %h2 Your remiders
-      %ul
-        - @events.each do |event|
-          %li
-            .jakis-div
-              %h3
-                %span Visit Title:
-                = event.title
-                %span || Time to visit:
-                = distance_of_time_in_words(Time.now, event.start_at)
+.row.remider
+  %h2 Your remiders
+  %ol
+    - @events.each do |event|
+      .index-wrapper
+        - if current_user.role == 'doctor' || current_user.role == 'admin'
+          .col-md-2
+          -# SPOT FOR COMPLETE ACTION
+            <p><%= link_to complete_event_path(event), method: :patch do %></p>
+              <i class="fa fa-check fa-lg"></i>
+            <% end %>
+          .col-md-2
             %p
-              %span Visit type:
-              = event.event_type + ' || '
-              %span Doctor:
-              = event.doctor_name + ' || '
-              %span Beast:
-              = event.animal_name
-
-    .col-md-4
-      %h2 My Animals
-      - if @animals.empty?
-        %h3
-          %span Don't by shy...
-          = link_to "Add your beast :)", new_animal_path
-      - @animals.each do |animal|
-        %h3
-          %span Animal name:
-          = link_to animal.name, animal
-        %p
-          %span Animal type:
-          = animal.animal_type.capitalize.tr('_', ' ') + " || "
-          %span Animal breed:
-          = animal.breed
-    .col-md-8
-      .calendar
+              = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
+                %i.fa.fa-trash.fa-lg
+          .col-md-8
+            %li
+              .jakis-div
+                %h3
+                  %span Visit Title:
+                  = event.title
+                  %span || Time to visit:
+                  = distance_of_time_in_words(Time.now, event.start_at)
+              %p
+                %span Visit type:
+                = event.event_type + ' || '
+                %span Doctor:
+                = event.doctor_name + ' || '
+                %span Beast:
+                = event.animal_name
+        - else
+          .row.event
+            .col-md-2
+            .col-md-2
+              - if Time.now > (event.start_at - 24.hours).to_datetime
+                %p
+                  %strike.i.fa.fa-trash.fa-lg
+              - else
+                %p
+                  = link_to event_path(event), method: :delete, data: { confirm: "Areu you sure?" } do
+                    %i.fa.fa-trash.fa-lg
+            .col-md-8
+              %li
+                %h4.event-title
+                  %span Visit Title:
+                  = event.title
+                  %span || Time to visit:
+                  = distance_of_time_in_words(Time.now, event.start_at)
+              %p.event-desc
+                %span Visit type:
+                = event.event_type + ' || '
+                %span Doctor:
+                = event.doctor_name + ' || '
+                %span Beast:
+                = event.animal_name
+  .col-md-4
+    %h2 My Animals
+    - if @animals.empty?
+      %h3
+        %span Don't by shy...
+        = link_to "Add your beast :)", new_animal_path
+    - @animals.each do |animal|
+      %h3
+        %span Animal name:
+        = link_to animal.name, animal
+      %p
+        %span Animal type:
+        = animal.animal_type.capitalize.tr('_', ' ') + " || "
+        %span Animal breed:
+        = animal.breed
+  .col-md-8.cal
+    .calendar

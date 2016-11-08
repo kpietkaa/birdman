@@ -4,7 +4,6 @@ class AnimalsController < ApplicationController
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
   before_action :animal_type_map, only: [:new, :edit]
   def index
-    binding.pry
     @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
     create_events
   end
