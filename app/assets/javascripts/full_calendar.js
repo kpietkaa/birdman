@@ -1,6 +1,8 @@
 var initialize_calendar;
 var myDate = new Date();
-myDate.setDate(myDate.getDate() - 1);
+myDate.setHours(myDate.getHours() + 24);
+var myDay = new Date();
+myDay.setDate(myDay.getDate());
 initialize_calendar = function() {
   $('.calendar').each(function(){
     var calendar = $(this);
@@ -15,7 +17,7 @@ initialize_calendar = function() {
       weekends: false,
       minTime: '07:00',
       maxTime: '21:00',
-      height: 693,
+      height: 750,
       defaultView: 'agendaWeek',
       selectable: true,
       selectHelper: true,
@@ -35,7 +37,7 @@ initialize_calendar = function() {
 
       // Create event
       select: function(start, end) {
-        if (start < myDate)
+        if (start < myDay)
         {
           calendar.fullCalendar('unselect');
         }
@@ -64,6 +66,7 @@ initialize_calendar = function() {
       },
 
       eventClick: function(event, jsEvent, view) {
+        // myDate.setHours(myDate.getHours() + 24);
         if (moment(event.start) < myDate)
         {
           calendar.fullCalendar('unselect');

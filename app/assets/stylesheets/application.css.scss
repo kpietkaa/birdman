@@ -39,7 +39,10 @@ background: linear-gradient(to left, #abbaab , #ffffff); /* W3C, IE 10+/ Edge, F
  }
 
  a {
- 	color: darken(#e7e7e7, 70%);
+   color: #f05f40;
+   -webkit-transition: all .35s;
+   -moz-transition: all .35s;
+   transition: all .35s;
  }
 
  button, .button {
