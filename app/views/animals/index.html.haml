@@ -1,9 +1,9 @@
 .row.remider
-  %h2 Your remiders
   %ol
-    - @events.each do |event|
+    - if current_user.role == 'doctor'
+      %h2 Your today's patients!
       .index-wrapper
-        - if current_user.role == 'doctor' || current_user.role == 'admin'
+        - @events.each do |event|
           .col-md-2
           -# SPOT FOR COMPLETE ACTION
             <p><%= link_to complete_event_path(event), method: :patch do %></p>
@@ -15,20 +15,23 @@
                 %i.fa.fa-trash.fa-lg
           .col-md-8
             %li
-              .jakis-div
-                %h3
-                  %span Visit Title:
-                  = event.title
-                  %span || Time to visit:
-                  = distance_of_time_in_words(Time.now, event.start_at)
-              %p
-                %span Visit type:
-                = event.event_type + ' || '
-                %span Doctor:
-                = event.doctor_name + ' || '
-                %span Beast:
+              %h4.event-title
+                %span Visit Title:
+                = event.title
+                %span || Visit start at:
+                = event.start_at.strftime('%H:%M')
+              %p.event-desc
+                - unless event.event_type.nil?
+                  %span Visit type:
+                  = event.event_type + ' || '
+                %span Owner:
+                = event.owner_name + ' || '
+                %span Beast type:
                 = event.animal_name
-        - else
+    - else
+      .index-wrapper
+        %h2 Your remiders
+        - @events.each do |event|
           .row.event
             .col-md-2
             .col-md-2
