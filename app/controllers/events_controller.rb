@@ -42,6 +42,10 @@ class EventsController < ApplicationController
     redirect_to root_path
   end
 
+  def current_user_role
+    render json: {role: current_user.role}
+  end
+
   private
 
   def event_params

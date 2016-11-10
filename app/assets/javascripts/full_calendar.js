@@ -3,6 +3,11 @@ var myDate = new Date();
 myDate.setHours(myDate.getHours() + 24);
 var myDay = new Date();
 myDay.setDate(myDay.getDate());
+var current_user_role;
+$.get('/current_user_role', function(result){
+current_user_role = result.role;
+});
+
 initialize_calendar = function() {
   $('.calendar').each(function(){
     var calendar = $(this);
@@ -37,6 +42,14 @@ initialize_calendar = function() {
 
       // Create event
       select: function(start, end) {
+        if (current_user_role == 'doctor') {
+          $.getScript('events/new', function() {
+            $('#event_date_range').val(moment(start).format("YYYY/MM/DD HH:mm") + ' - ' + moment(end).format("YYYY/MM/DD HH:mm"))
+          });
+
+          calendar.fullCalendar('unselect');
+        }
+
         if (start < myDay)
         {
           calendar.fullCalendar('unselect');
@@ -66,7 +79,13 @@ initialize_calendar = function() {
       },
 
       eventClick: function(event, jsEvent, view) {
-        // myDate.setHours(myDate.getHours() + 24);
+        if (current_user_role == 'doctor') {
+          $.getScript(event.edit_url, function() {
+            $('#event_date_range').val(moment(event.start).format("YYYY/MM/DD HH:mm") + ' - ' + moment(event.end).format("YYYY/MM/DD HH:mm"))
+            date_range_picker();
+          });
+        }
+
         if (moment(event.start) < myDate)
         {
           calendar.fullCalendar('unselect');

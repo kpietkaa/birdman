@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'registrations'}
+  get 'current_user_role', to: "events#current_user_role"
   ActiveAdmin.routes(self)
   resources :animals
   resources :events do
