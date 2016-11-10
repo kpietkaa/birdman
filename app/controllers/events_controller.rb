@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :find_event, only: [ :show, :edit, :update, :destroy ]
+  before_action :find_event, only: [ :show, :edit, :update, :destroy, :complete ]
   before_action :find_doctor, only: [ :new, :edit ]
   before_action :find_animal, only: [ :new, :edit ]
   before_action :map_visit_type, only: [ :new, :edit, :create, :update ]
@@ -37,6 +37,11 @@ class EventsController < ApplicationController
     redirect_to root_path
   end
 
+  def complete
+    @event.update_attribute(:completed_at, Time.now)
+    redirect_to root_path
+  end
+
   private
 
   def event_params
@@ -44,7 +49,7 @@ class EventsController < ApplicationController
   end
 
   def find_event
-    unless current_user.role == 'admin'
+    unless current_user.role == 'admin' || current_user.role = 'doctor'
       @event = Event.where(user_id: current_user.id).find(params[:id])
     else
       @event = Event.find(params[:id])

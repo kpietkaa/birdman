@@ -7,4 +7,8 @@ class Event < ActiveRecord::Base
   def all_day_event?
     self.start_at == self.start_at.midnight && self.end_at == self.end_at.midnight ? true : false
   end
+
+  def completed?
+    !completed_at.blank?
+  end
 end

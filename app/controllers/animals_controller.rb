@@ -68,7 +68,7 @@ class AnimalsController < ApplicationController
         e.event_type = visit_hash.key(e.event_type)
         e.animal_name = animals_hash.key(e.animal_id)
         e.owner_name = animal_owner.key(e.user_id)
-      elsif e.user_id == current_user.id && e.start_at > Time.now
+      elsif e.user_id == current_user.id && e.start_at > Time.now - 12.hours
         e.event_type = visit_hash.key(e.event_type)
         e.doctor_name = doctor_hash.key(e.doctor_id)
         e.animal_name = animal_hash.key(e.animal_id)

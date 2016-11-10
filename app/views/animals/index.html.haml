@@ -2,38 +2,62 @@
   %ol
     - if current_user.role == 'doctor'
       %h2 Your today's patients!
+      .row.event
+        .col-md-2
+          %h5 Complete visit
+        .col-md-2
+          %h5 Trash visit
+        .col-md-8
+          %h5 Titles
       .index-wrapper
-        - @events.each do |event|
-          .col-md-2
-          -# SPOT FOR COMPLETE ACTION
-            <p><%= link_to complete_event_path(event), method: :patch do %></p>
-              <i class="fa fa-check fa-lg"></i>
-            <% end %>
-          .col-md-2
-            %p
-              = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
-                %i.fa.fa-trash.fa-lg
-          .col-md-8
-            %li
-              %h4.event-title
-                %span Visit Title:
-                = event.title
-                %span || Visit start at:
-                = event.start_at.strftime('%H:%M')
-              %p.event-desc
-                - unless event.event_type.nil?
-                  %span Visit type:
-                  = event.event_type + ' || '
-                %span Owner:
-                = event.owner_name + ' || '
-                %span Beast type:
-                = event.animal_name
-    - else
-      .index-wrapper
-        %h2 Your remiders
         - @events.each do |event|
           .row.event
             .col-md-2
+              - if event.completed?
+                %i.fa.fa-check.fa-lg
+              - else
+                = link_to complete_event_path(event), method: :patch do
+                  %i.fa.fa-check.fa-lg
+            .col-md-2
+              %p
+                = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
+                  %i.fa.fa-trash.fa-lg
+            .col-md-8
+              %li
+                %h4.event-title
+                  - if event.completed?
+                    %strike.span Visit Title:
+                    %strike= event.title
+                    %strike.span || Visit start at:
+                    %strike= event.start_at.strftime('%H:%M')
+                  - else
+                    %span Visit Title:
+                    = event.title
+                    %span || Visit start at:
+                    = event.start_at.strftime('%H:%M')
+                %p.event-desc
+                  - unless event.event_type.nil?
+                    %span Visit type:
+                    = event.event_type + ' || '
+                  %span Owner:
+                  = event.owner_name + ' || '
+                  %span Beast type:
+                  = event.animal_name
+    - else
+      %h2 Your remiders
+      .row.event
+        .col-md-2
+          %h5 Completed visit
+        .col-md-2
+          %h5 Trash visit
+        .col-md-8
+          %h5 Titles
+      .index-wrapper
+        - @events.each do |event|
+          .row.event
+            .col-md-2
+              - if event.completed?
+                %i.fa.fa-check.fa-lg
             .col-md-2
               - if Time.now > (event.start_at - 24.hours).to_datetime
                 %p
