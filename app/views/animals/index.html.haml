@@ -82,11 +82,16 @@
                 %span Beast:
                 = event.animal_name
   .col-md-4
-    %h2 My Animals
-    - if @animals.empty?
-      %h3
-        %span Don't by shy...
-        = link_to "Add your beast :)", new_animal_path
+    - if current_user.role == 'doctor'
+      %h2 My Today's Patients
+      - if @animals.empty?
+        %h3 Day freee ;)
+    - else
+      %h2 My Animals
+      - if @animals.empty?
+        %h3
+          %span Don't by shy...
+          = link_to "Add your beast :)", new_animal_path
     - @animals.each do |animal|
       %h3
         %span Animal name:

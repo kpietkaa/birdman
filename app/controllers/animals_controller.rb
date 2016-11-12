@@ -4,8 +4,14 @@ class AnimalsController < ApplicationController
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
   before_action :animal_type_map, only: [:new, :edit]
   def index
-    @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
     create_events
+    @patients = Hash[@events.map{ |e| [e.id, e.animal_id] } ]
+    if current_user.role == 'user'
+      @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
+    else
+      @animals = Animal.where(id: @patients.values)
+    end
+
   end
 
   def show
