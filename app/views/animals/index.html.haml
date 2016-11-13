@@ -3,38 +3,38 @@
     - if current_user.role == 'doctor'
       %h2 Your today's patients!
       .row.event
-        .col-md-2
-          %h5 Complete visit
-        .col-md-2
-          %h5 Trash visit
-        .col-md-8
+        .col-md-3
+          .col-md-6
+            %h5.center Complete visit
+          .col-md-6
+            %h5.center Trash visit
+        .col-md-9
           %h5 Titles
       .index-wrapper
         - @events.each do |event|
           .row.event
-            .col-md-2
-              - if event.completed?
-                %i.fa.fa-check.fa-lg
-              - else
-                = link_to complete_event_path(event), method: :patch do
-                  %i.fa.fa-check.fa-lg
-            .col-md-2
-              %p
-                = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
-                  %i.fa.fa-trash.fa-lg
-            .col-md-8
+            .col-md-3
+              .col-md-6
+                - if event.completed?
+                  .icondesign
+                    %i.fa.fa-check.fa-lg
+                - else
+                  = link_to complete_event_path(event), method: :patch do
+                    .icondesign
+                      %i.fa.fa-check.fa-lg
+              .col-md-6
+                .icondesign
+                  = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
+                    %i.fa.fa-trash.fa-lg
+            .col-md-4
               %li
                 %h4.event-title
                   - if event.completed?
-                    %strike.span Visit Title:
-                    %strike= event.title
-                    %strike.span || Visit start at:
-                    %strike= event.start_at.strftime('%H:%M')
+                    %strike.span Visit start at:
+                    = link_to event.start_at.strftime('%H:%M'), new_event_history_path(event)
                   - else
-                    %span Visit Title:
-                    = event.title
-                    %span || Visit start at:
-                    = event.start_at.strftime('%H:%M')
+                    %span Visit start at:
+                    = link_to event.start_at.strftime('%H:%M'), new_event_history_path(event)
                 %p.event-desc
                   - unless event.event_type.nil?
                     %span Visit type:
@@ -43,30 +43,41 @@
                   = event.owner_name + ' || '
                   %span Beast type:
                   = event.animal_name
+            .col-md-5.mar
+              %p
+                %span New visit description ||
+                %span Show visit description ||
+                %span Edit visit description ||
+                %span Delete visit description
+
     - else
       %h2 Your remiders
       .row.event
-        .col-md-2
-          %h5 Completed visit
-        .col-md-2
-          %h5 Trash visit
-        .col-md-8
+        .col-md-3
+          .col-md-6
+            %h5.center Completed visit
+          .col-md-6
+            %h5.center Trash visit
+        .col-md-9
           %h5 Titles
       .index-wrapper
         - @events.each do |event|
           .row.event
-            .col-md-2
-              - if event.completed?
-                %i.fa.fa-check.fa-lg
-            .col-md-2
-              - if Time.now > (event.start_at - 24.hours).to_datetime
-                %p
-                  %strike.i.fa.fa-trash.fa-lg
-              - else
-                %p
-                  = link_to event_path(event), method: :delete, data: { confirm: "Areu you sure?" } do
-                    %i.fa.fa-trash.fa-lg
-            .col-md-8
+            .col-md-3
+              .col-md-6
+                - if event.completed?
+                  .icondesign
+                    %i.fa.fa-check.fa-lg
+              .col-md-6
+                - if Time.now > (event.start_at - 24.hours).to_datetime
+                  %p
+                    .icondesign
+                      %strike.i.fa.fa-trash.fa-lg
+                - else
+                  .icondesign
+                    = link_to event_path(event), method: :delete, data: { confirm: "Areu you sure?" } do
+                      %i.fa.fa-trash.fa-lg
+            .co-md-9
               %li
                 %h4.event-title
                   %span Visit Title:
