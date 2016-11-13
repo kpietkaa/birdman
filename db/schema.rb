@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112223548) do
+ActiveRecord::Schema.define(version: 20161113141539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,7 +74,10 @@ ActiveRecord::Schema.define(version: 20161112223548) do
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "event_id"
   end
+
+  add_index "histories", ["event_id"], name: "index_histories_on_event_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -110,5 +113,6 @@ ActiveRecord::Schema.define(version: 20161112223548) do
 
   add_foreign_key "animals", "users"
   add_foreign_key "events", "users"
+  add_foreign_key "histories", "events"
   add_foreign_key "users", "addresses"
 end

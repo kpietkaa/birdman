@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :vist_type
+  has_many :histories
   validates :title, presence: true
   attr_accessor :date_range, :doctor_name, :animal_name, :owner_name
 

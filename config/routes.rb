@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     member do
       patch :complete
     end
+    resources :histories
   end
   get "/home", to: 'visitors#index'
   authenticated :user do
