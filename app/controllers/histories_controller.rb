@@ -5,6 +5,12 @@ class HistoriesController < ApplicationController
   end
 
   def show
+    @event = Event.find(params[:event_id])
+    @animal_info = Animal.find(@event.animal_id)
+    @owner_info = User.find(@event.user_id)
+    @owner_address = Address.find(@owner_info.address_id)
+    create_event
+    @history = History.find(params[:id])
   end
 
 
