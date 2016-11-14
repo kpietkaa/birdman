@@ -19,7 +19,10 @@ class HistoriesController < ApplicationController
 
   def create
     @event = Event.find(params[:event_id])
-    @history = @event.histories.create(history_params)
+    @history = History.new(history_params)
+    @history.event_id = @event.id
+    @history.save
+    @event.update_attribute(:history_id, @history.id)
     if @history.errors.any?
       render 'new'
     else

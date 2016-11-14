@@ -31,10 +31,10 @@
                 %h4.event-title
                   - if event.completed?
                     %strike.span Visit start at:
-                    = link_to event.start_at.strftime('%H:%M'), new_event_history_path(event)
+                    = event.start_at.strftime('%H:%M')
                   - else
                     %span Visit start at:
-                    = link_to event.start_at.strftime('%H:%M'), new_event_history_path(event)
+                    = event.start_at.strftime('%H:%M')
                 %p.event-desc
                   - unless event.event_type.nil?
                     %span Visit type:
@@ -45,8 +45,10 @@
                   = event.animal_name
             .col-md-5.mar
               %p
-                %span New visit description ||
-                %span Show visit description ||
+                = link_to 'New visit description', new_event_history_path(event)
+                %span ||
+                = link_to 'Show visit description', event_history_path(event.id, event.history_id)
+                %span ||
                 %span Edit visit description ||
                 %span Delete visit description
 
