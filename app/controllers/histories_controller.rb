@@ -32,7 +32,7 @@ class HistoriesController < ApplicationController
 
   private
   def history_params
-    params[:history].permit(:description)
+    params[:history].permit(:description, :surgery, :recipe)
   end
 
   def create_event

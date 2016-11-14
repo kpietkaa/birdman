@@ -54,9 +54,10 @@
           = @owner_address.zip_city
       %br
       %br
-      	
-    %h2 Visit description
+
     .form-group
       = simple_form_for([@event, @event.histories.build]) do |f|
-        = f.text_area :description, style: 'width:100%;', rows: "10"
-        = f.submit
+        = f.input :description, label: 'Visit description', as: :text, autofocus: true, input_html: { rows: 5 }
+        = f.input :surgery, as: :text, input_html: { rows: 5 }
+        = f.input :recipe, as: :text, input_html: { rows: 5 }
+        = f.button :submit, class: "btn btn-default"
