@@ -1,0 +1,58 @@
+.row
+  .col-md-8.col-md-offset-2
+    %h2
+      %span= @event.start_at.strftime('%d.%m.%Y') + ' -  Visit ' + @event.animal_name + ' with ' + @event.owner_name
+    %br
+    .col-md-6
+      %h3
+        %u Patients informations
+      %h4
+        %span Animal name:
+        = @animal_info.name
+      %h4
+        %span Animal type:
+        = @animal_info.animal_type.capitalize
+      %h4
+        %span Animal breed:
+        = @animal_info.breed.capitalize
+      %p
+        %span Sex:
+        - if @animal_info.sex?
+          Male
+        - elsif @animal_info.sex.nil?
+          Don't know
+        - else
+          Female
+      %p
+        %span Castration:
+        - if @animal_info.castration == 0
+          No
+        - elsif @animal_info.castration == 1
+          Yes
+        - else
+          Don't know
+      %p
+        %span Birth date:
+        = @animal_info.birth_date.strftime("%d %B %Y")
+    .col-md-6
+      %h3
+        %u Owner informations
+      %h3
+        %span Full name:
+        = @owner_info.full_name
+      %h3
+        %span E-mail:
+        = @owner_info.email
+      %h3
+        %span Address:
+        = @owner_address.street_address
+        %br
+        .zip_indent
+          = @owner_address.zip_city
+      %br
+      %br
+    %h2 Visit description
+    .form-group
+      = simple_form_for([@event, @event.histories.build]) do |f|
+        = f.text_area :description, style: 'width:100%;', rows: "10"
+        = f.submit
