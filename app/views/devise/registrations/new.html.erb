@@ -12,6 +12,7 @@
         <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
         <%= f.input :password_confirmation, required: true %>
         <%= f.simple_fields_for :address do |a| %>
+          <%= a.input :phone_number %>
           <%= a.input :street %>
           <%= a.input :street_number %>
           <%= a.input :house_number %>

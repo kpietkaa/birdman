@@ -6,7 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
     respond_with self.resource
   end
   private
-  ADDRESS = [ :street, :street_number, :house_number, :city, :zip_code ]
+  ADDRESS = [ :phone_number, :street, :street_number, :house_number, :city, :zip_code ]
   def sign_up_params
     params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, [ address_attributes: ADDRESS ])
   end
