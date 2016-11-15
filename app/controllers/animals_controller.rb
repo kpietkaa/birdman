@@ -55,7 +55,11 @@ class AnimalsController < ApplicationController
   end
 
   def find_animal
-    @animal = Animal.where(user_id: current_user.id).find(params[:id])
+    unless current_user.role == 'doctor'
+      @animal = Animal.where(user_id: current_user.id).find(params[:id])
+    else
+      @animal = Animal.find(params[:id])
+    end
   end
 
   def animal_type_map

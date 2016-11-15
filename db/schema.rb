@@ -77,12 +77,10 @@ ActiveRecord::Schema.define(version: 20161114213623) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "event_id"
     t.text     "surgery"
     t.text     "recipe"
+    t.integer  "event_id"
   end
-
-  add_index "histories", ["event_id"], name: "index_histories_on_event_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -119,6 +117,5 @@ ActiveRecord::Schema.define(version: 20161114213623) do
   add_foreign_key "animals", "users"
   add_foreign_key "events", "histories"
   add_foreign_key "events", "users"
-  add_foreign_key "histories", "events"
   add_foreign_key "users", "addresses"
 end

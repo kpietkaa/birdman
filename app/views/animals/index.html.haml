@@ -26,7 +26,7 @@
                 .icondesign
                   = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
                     %i.fa.fa-trash.fa-lg
-            .col-md-4
+            .col-md-5
               %li
                 %h4.event-title
                   - if event.completed?
@@ -43,7 +43,7 @@
                   = event.owner_name
                   %span Beast type:
                   = event.animal_name
-            .col-md-5.mar
+            .col-md-4.mar
               %p
                 - if event.history_id.nil?
                   = link_to 'New visit description', new_event_history_path(event)
@@ -59,8 +59,6 @@
                   %strike= 'Edit visit description'
                 - else
                   = link_to 'Edit visit description', edit_event_history_path(event.id, event.history_id)
-                %span ||
-                %span Delete visit description
     - else
       %h2 Your remiders
       .row.event
