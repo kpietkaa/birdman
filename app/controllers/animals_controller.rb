@@ -67,12 +67,12 @@ class AnimalsController < ApplicationController
     visit_hash = Hash[VisitType.all.map{ |v| [v.title, v.color] }]
     doctor_hash = Hash[User.all.select{|u| u.role=='doctor' }.map{ |u| [ u.full_name, u.id ] }]
     animal_hash = Hash[Animal.all.select{ |a| a.user_id == current_user.id}.map{ |a| [ a.name, a.id ] }]
-    animals_hash = Hash[Animal.all.map{ |a| [ a.name, a.id ] }]
+    animals_hash = Hash[Animal.all.map{ |a| [ [a.name, a.id], a.id ] }]
     animal_owner = Hash[User.all.map{ |u| [ u.full_name, u.id ] }]
     @events = Event.all.order("start_at").select{ |e|
       if current_user.role == 'doctor' && e.doctor_id == current_user.id && e.start_at.strftime('%d%m%Y') == Time.now.strftime('%d%m%Y')
         e.event_type = visit_hash.key(e.event_type)
-        e.animal_name = animals_hash.key(e.animal_id)
+        e.animal_name = animals_hash.key(e.animal_id)[0]
         e.owner_name = animal_owner.key(e.user_id)
       elsif e.user_id == current_user.id && e.start_at > Time.now - 12.hours
         e.event_type = visit_hash.key(e.event_type)

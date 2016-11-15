@@ -17,6 +17,9 @@ gem 'pry', '~> 0.10.4'
 gem 'activeadmin', '~> 1.0.0.pre4'
 gem 'devise', '~> 4.2'
 gem 'cancancan', '~> 1.15'
+gem 'pdfkit'
+gem 'render_anywhere'
+gem 'wkhtmltopdf-binary'
 
 group :development, :test do
   gem 'byebug'

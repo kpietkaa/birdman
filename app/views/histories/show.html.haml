@@ -67,3 +67,6 @@
         %h4 None
       - else
         %h4= @history.recipe
+    = link_to "Download PDF", event_history_download_path(@event.id, @history.id, format: "pdf"), target: "_blank", class: "btn btn-default"
+    %br
+    = link_to "Back", :back

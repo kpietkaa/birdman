@@ -40,18 +40,20 @@
                     %span Visit type:
                     = event.event_type + ' || '
                   %span Owner:
-                  = event.owner_name + ' || '
+                  = event.owner_name
                   %span Beast type:
                   = event.animal_name
             .col-md-5.mar
               %p
                 = link_to 'New visit description', new_event_history_path(event)
                 %span ||
-                = link_to 'Show visit description', event_history_path(event.id, event.history_id)
+                - if event.history_id.nil?
+                  %strike= 'Show visit description'
+                - else
+                  = link_to 'Show visit description', event_history_path(event.id, event.history_id)
                 %span ||
                 %span Edit visit description ||
                 %span Delete visit description
-
     - else
       %h2 Your remiders
       .row.event
@@ -72,14 +74,13 @@
                     %i.fa.fa-check.fa-lg
               .col-md-6
                 - if Time.now > (event.start_at - 24.hours).to_datetime
-                  %p
-                    .icondesign
-                      %strike.i.fa.fa-trash.fa-lg
+                  .icondesign
+                    %strike.i.fa.fa-trash.fa-lg
                 - else
                   .icondesign
-                    = link_to event_path(event), method: :delete, data: { confirm: "Areu you sure?" } do
+                    = link_to event_path(event), method: :delete, data: { confirm: "Are you sure?" } do
                       %i.fa.fa-trash.fa-lg
-            .co-md-9
+            .col-md-5
               %li
                 %h4.event-title
                   %span Visit Title:
@@ -94,6 +95,9 @@
                 = event.doctor_name + ' || '
                 %span Beast:
                 = event.animal_name
+            .col-md-4.mar
+              - if event.completed? && !event.history_id.nil?
+                = link_to 'Show visit description', event_history_path(event.id, event.history_id)
   .col-md-4
     - if current_user.role == 'doctor'
       %h2 My Today's Patients

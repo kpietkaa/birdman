@@ -11,6 +11,7 @@ class Ability
       can :manage, Animal
       can :manage, Event
       can :read, Visitor
+      can :read, History
     else
       can :read, :all
     end
