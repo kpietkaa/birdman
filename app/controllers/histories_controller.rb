@@ -43,10 +43,10 @@ class HistoriesController < ApplicationController
 
   def create_event
     visit_hash = Hash[VisitType.all.map{ |v| [v.title, v.color] }]
-    animals_hash = Hash[Animal.all.map{ |a| [ a.name, a.id ] }]
+    animals_hash = Hash[Animal.all.map{ |a| [[a.name, a.id], a.id ] }]
     animal_owner = Hash[User.all.map{ |u| [ u.full_name, u.id ] }]
     @event.event_type = visit_hash.key(@event.event_type)
-    @event.animal_name = animals_hash.key(@event.animal_id)
+    @event.animal_name = animals_hash.key(@event.animal_id)[0]
     @event.owner_name = animal_owner.key(@event.user_id)
   end
 end
