@@ -36,6 +36,25 @@ class HistoriesController < ApplicationController
     end
   end
 
+  def edit
+    @event = Event.find(params[:event_id])
+    @animal_info = Animal.find(@event.animal_id)
+    @owner_info = User.find(@event.user_id)
+    @owner_address = Address.find(@owner_info.address_id)
+    create_event
+    @history = History.find(params[:id])
+  end
+
+  def update
+    @history = History.find(params[:id])
+    @history.update(history_params)
+    if @history.errors.any?
+      render 'edit'
+    else
+      redirect_to root_path
+    end
+  end
+
   private
   def history_params
     params[:history].permit(:description, :surgery, :recipe)

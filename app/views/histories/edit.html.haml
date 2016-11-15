@@ -3,7 +3,7 @@
 .row
   .col-md-8.col-md-offset-2
     .form-group
-      = simple_form_for([@event, @event.histories.build]) do |f|
+      = simple_form_for([@event, @history]) do |f|
         = f.input :description, label: 'Visit description', as: :text, autofocus: true, input_html: { rows: 5 }
         = f.input :surgery, as: :text, input_html: { rows: 5 }
         = f.input :recipe, as: :text, input_html: { rows: 5 }

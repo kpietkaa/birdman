@@ -45,14 +45,21 @@
                   = event.animal_name
             .col-md-5.mar
               %p
-                = link_to 'New visit description', new_event_history_path(event)
+                - if event.history_id.nil?
+                  = link_to 'New visit description', new_event_history_path(event)
+                - else
+                  %strike= 'New visit description'
                 %span ||
                 - if event.history_id.nil?
                   %strike= 'Show visit description'
                 - else
                   = link_to 'Show visit description', event_history_path(event.id, event.history_id)
                 %span ||
-                %span Edit visit description ||
+                - if event.history_id.nil?
+                  %strike= 'Edit visit description'
+                - else
+                  = link_to 'Edit visit description', edit_event_history_path(event.id, event.history_id)
+                %span ||
                 %span Delete visit description
     - else
       %h2 Your remiders
