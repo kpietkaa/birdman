@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     member do
       patch :complete
     end
-    resources :histories
+    resources :histories do
+      resource :download, only: [:show]
+    end
   end
   get "/home", to: 'visitors#index'
   authenticated :user do
