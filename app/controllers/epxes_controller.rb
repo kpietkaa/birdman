@@ -1,0 +1,3 @@
+class EpxesController < ApplicationController
+
+end
