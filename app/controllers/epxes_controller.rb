@@ -28,3 +28,7 @@ end
 class Cage
   attr_accessor :id, :name, :type, :animal_id, :animal_name
 end
+
+class Sensor
+  attr_accessor :id, :name, :temperature, :animal_id, :animal_name
+end
