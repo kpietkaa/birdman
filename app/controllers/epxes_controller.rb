@@ -8,3 +8,7 @@ class EpxesController < ApplicationController
     JSON.parse(data)
   end
 end
+
+class Cage
+  attr_accessor :id, :name, :type, :animal_id, :animal_name
+end
