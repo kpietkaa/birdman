@@ -1,0 +1,21 @@
+.row
+  .col-md-8.col-md-offset-2
+    %h1 EPX
+    .col-md-6
+      %h2 Cages State
+      %table
+        %tbody
+          %tr
+            %th Cage ID
+            %th Cage Name
+            %th Cage type
+            %th Animal in cage
+          - @cages.map do |cage|
+            %tr
+              %td= cage.id
+              %td= cage.name
+              %td= cage.type
+              %td= cage.animal_name
+
+    .col-md-6
+      %h2 Sensors state
