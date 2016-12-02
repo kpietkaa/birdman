@@ -19,3 +19,15 @@
 
     .col-md-6
       %h2 Sensors state
+      %table
+        %tbody
+          %th Sensor ID
+          %th Sensor Name
+          %th Temperature
+          %th Aniaml Name
+        - @sensors.map do |sensor|
+          %tr
+            %td= sensor.id
+            %td= sensor.name
+            %td= sensor.temperature
+            %td= sensor.animal_name
