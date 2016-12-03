@@ -1,33 +1,39 @@
 .row
-  .col-md-8.col-md-offset-2
-    %h1 EPX
-    .col-md-6
-      %h2 Cages State
-      %table
-        %tbody
+  %h1 EPX
+  .col-md-6
+    %h2 Cages State
+    %table.table.table-striped.table-inverse
+      .thead-inverse
+        %tr
+          %th Cage ID
+          %th Cage Name
+          %th Cage type
+          %th Animal in cage
+        - @cages.map do |cage|
           %tr
-            %th Cage ID
-            %th Cage Name
-            %th Cage type
-            %th Animal in cage
-          - @cages.map do |cage|
-            %tr
+            - if cage.error.nil?
               %td= cage.id
               %td= cage.name
               %td= cage.type
               %td= cage.animal_name
+            - else
+              %td= cage.error
 
-    .col-md-6
-      %h2 Sensors state
-      %table
-        %tbody
+  .col-md-6
+    %h2 Sensors state
+    %table.table.table-striped.table-inverse
+      .thead-inverse
+        %tr
           %th Sensor ID
           %th Sensor Name
           %th Temperature
           %th Aniaml Name
-        - @sensors.map do |sensor|
-          %tr
+      - @sensors.map do |sensor|
+        %tr
+          - if sensor.error.nil?
             %td= sensor.id
             %td= sensor.name
             %td= sensor.temperature
             %td= sensor.animal_name
+          - else
+            %td= sensor.error
