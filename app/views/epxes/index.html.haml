@@ -18,6 +18,11 @@
               %td= cage.animal_name
             - else
               %td= cage.error
+    %h3 Update cage
+    = simple_form_for :cage, url: "/epxes/update_cage", method: :put do |f|
+      =f.input :id
+      =f.input :animal_name
+      =f.button :submit
 
   .col-md-6
     %h2 Sensors state
