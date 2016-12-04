@@ -1,6 +1,7 @@
 class EpxesController < ApplicationController
 
-  $JSON = ""
+  $JSONCAGE = "{\"Id\":2561,\"Name\":\"Klatka 2\",\"MetamodelUri\":\"http://kp.zpi3.pwr.edu.pl/\",\"InstanceId\":2500,\"InstanceUri\":\"http://temp/Klatka21f7679ec-4203-4ea2-815f-73baade6f54c\",\"RootModelElement\":{\"Id\":6654,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka\",\"Value\":null,\"Children\":[{\"Id\":6655,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/id\",\"Value\":\"2\",\"Children\":[]},{\"Id\":6656,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/type\",\"Value\":\"Duza\",\"Children\":[]},{\"Id\":6657,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/+zwierze\",\"Value\":null,\"Children\":[{\"Id\":6658,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze\",\"Value\":null,\"Children\":[{\"Id\":6659,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/id\",\"Value\":\"1\",\"Children\":[]},{\"Id\":6660,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/name\",\"Value\":\"ADA\",\"Children\":[]}]}]}]}}"
+  $JSONSENSOR = "{\"Id\":2561,\"Name\":\"Klatka 2\",\"MetamodelUri\":\"http://kp.zpi3.pwr.edu.pl/\",\"InstanceId\":2500,\"InstanceUri\":\"http://temp/Klatka21f7679ec-4203-4ea2-815f-73baade6f54c\",\"RootModelElement\":{\"Id\":6654,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka\",\"Value\":null,\"Children\":[{\"Id\":6655,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/id\",\"Value\":\"2\",\"Children\":[]},{\"Id\":6656,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/type\",\"Value\":\"Duza\",\"Children\":[]},{\"Id\":6657,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/+zwierze\",\"Value\":null,\"Children\":[{\"Id\":6658,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze\",\"Value\":null,\"Children\":[{\"Id\":6659,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/id\",\"Value\":\"1\",\"Children\":[]},{\"Id\":6660,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/name\",\"Value\":\"ADA\",\"Children\":[]}]}]}]}}"
 
   def index
     @cages = Array.new
@@ -13,7 +14,7 @@ class EpxesController < ApplicationController
       begin
         json = fetch url
         if i == 2561
-          $JSON = json
+          $JSONCAGE = json
         end
         if json["Message"].nil?
           cage.id = json["Id"]
@@ -39,6 +40,9 @@ class EpxesController < ApplicationController
       url += i.to_s
       begin
       json = fetch(url)
+      if i == 2555
+        $JSONSENSOR = json
+      end
       sensor.id = json["Id"]
       sensor.name = json["Name"]
       sensor.temperature = json["RootModelElement"]["Children"][0]["Value"]
@@ -53,14 +57,35 @@ class EpxesController < ApplicationController
   end
 
   def update_cage
-    $JSON["Id"] = params[:cage][:id]
-    $JSON["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
+    binding.pry
+    $JSONCAGE["Id"] = params[:cage][:id]
+    $JSONCAGE["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
     url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
 
     request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
-    request.body = $JSON.to_json
+    request.body = $JSONCAGE.to_json
+    begin
+    response = http.request(request)
+    rescue Timeout::Error
+      render file: "#{Rails.root}/public/404.html",  :status => 404
+    end
+
+    redirect_to "/epxes"
+  end
+
+  def update_sensor
+    binding.pry
+    $JSONSENSOR["Id"] = params[:cage][:id]
+    $JSONSENSOR["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
+
+    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+
+    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
+    request.body = $JSONSENSOR.to_json
     begin
     response = http.request(request)
     rescue Timeout::Error

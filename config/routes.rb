@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :epxes do
     collection do
       put :update_cage
+      put :update_sensor
     end
   end
   resources :events do
