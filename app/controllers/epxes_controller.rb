@@ -52,6 +52,24 @@ class EpxesController < ApplicationController
 
   end
 
+  def update_cage
+    $JSON["Id"] = params[:cage][:id]
+    $JSON["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
+    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+
+    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
+    request.body = $JSON.to_json
+    begin
+    response = http.request(request)
+    rescue Timeout::Error
+      render file: "#{Rails.root}/public/404.html",  :status => 404
+    end
+
+    redirect_to "/epxes"
+  end
+
   private
 
   def fetch(url)
