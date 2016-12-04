@@ -57,6 +57,10 @@ class EpxesController < ApplicationController
   end
 
   def update_cage
+    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
+    url += params[:cage][:id].to_s
+    json = fetch(url)
+    $JSONCAGE = json
     $JSONCAGE["Id"] = params[:cage][:id]
     $JSONCAGE["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
 
