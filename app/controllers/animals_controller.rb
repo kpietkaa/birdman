@@ -2,7 +2,7 @@ class AnimalsController < ApplicationController
   load_and_authorize_resource
   before_action :authenticate_user!
   before_action :find_animal, only: [:show, :edit, :update, :destroy]
-  before_action :animal_type_map, only: [:new, :edit]
+  before_action :animal_type_map, only: [:new, :create, :edit]
   def index
     create_events
     @patients = Hash[@events.map{ |e| [e.id, e.animal_id] } ]

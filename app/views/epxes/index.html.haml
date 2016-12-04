@@ -1,0 +1,51 @@
+.row
+  %h1 EPX
+  .col-md-6
+    %h2 Cages State
+    %table.table.table-striped.table-inverse
+      .thead-inverse
+        %tr
+          %th Cage ID
+          %th Cage Name
+          %th Cage type
+          %th Animal in cage
+        - @cages.map do |cage|
+          %tr
+            - if cage.error.nil?
+              %td= cage.id
+              %td= cage.name
+              %td= cage.type
+              %td= cage.animal_name
+            - else
+              %td= cage.error
+    %br
+    %h3 Update cage
+    = simple_form_for :cage, url: "/epxes/update_cage", method: :put do |f|
+      =f.input :id, label: "Cage ID"
+      =f.input :animal_name
+      =f.button :submit
+    %br
+  .col-md-6
+    %h2 Sensors state
+    %table.table.table-striped.table-inverse
+      .thead-inverse
+        %tr
+          %th Sensor ID
+          %th Sensor Name
+          %th Temperature
+          %th Aniaml Name
+      - @sensors.map do |sensor|
+        %tr
+          - if sensor.error.nil?
+            %td= sensor.id
+            %td= sensor.name
+            %td= sensor.temperature
+            %td= sensor.animal_name
+          - else
+            %td= sensor.error
+    %br
+    %h3 Update sensor
+    = simple_form_for :cage, url: "/epxes/update_sensor", method: :put do |f|
+      =f.input :id, label: "Sensor ID"
+      =f.input :animal_name
+      =f.button :submit

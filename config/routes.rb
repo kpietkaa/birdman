@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   get 'current_user_role', to: "events#current_user_role"
   ActiveAdmin.routes(self)
   resources :animals
+  resources :epxes do
+    collection do
+      put :update_cage
+      put :update_sensor
+    end
+  end
   resources :events do
     member do
       patch :complete

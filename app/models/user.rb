@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :events
   belongs_to :address
   accepts_nested_attributes_for :address
+  validates :email, :first_name, :last_name, presence: true
 
   before_create :set_default_role
   # Include default devise modules. Others available are:
