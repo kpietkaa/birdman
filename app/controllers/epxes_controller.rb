@@ -1,15 +1,20 @@
 class EpxesController < ApplicationController
 
+  $JSON = ""
+
   def index
     @cages = Array.new
-    # (2560..2564).map do |i|
-    (2560..2560).map do |i|
+    # (2561..2564).map do |i|
+    (2561..2561).map do |i|
       url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
       cage = Cage.new
       url += i.to_s
 
       begin
         json = fetch url
+        if i == 2561
+          $JSON = json
+        end
         if json["Message"].nil?
           cage.id = json["Id"]
           cage.name = json["Name"]
