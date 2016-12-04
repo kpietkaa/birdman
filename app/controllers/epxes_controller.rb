@@ -1,12 +1,12 @@
 class EpxesController < ApplicationController
 
-  $JSONCAGE = "{\"Id\":2561,\"Name\":\"Klatka 2\",\"MetamodelUri\":\"http://kp.zpi3.pwr.edu.pl/\",\"InstanceId\":2500,\"InstanceUri\":\"http://temp/Klatka21f7679ec-4203-4ea2-815f-73baade6f54c\",\"RootModelElement\":{\"Id\":6654,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka\",\"Value\":null,\"Children\":[{\"Id\":6655,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/id\",\"Value\":\"2\",\"Children\":[]},{\"Id\":6656,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/type\",\"Value\":\"Duza\",\"Children\":[]},{\"Id\":6657,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/+zwierze\",\"Value\":null,\"Children\":[{\"Id\":6658,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze\",\"Value\":null,\"Children\":[{\"Id\":6659,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/id\",\"Value\":\"1\",\"Children\":[]},{\"Id\":6660,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/name\",\"Value\":\"ADA\",\"Children\":[]}]}]}]}}"
-  $JSONSENSOR = "{\"Id\":2561,\"Name\":\"Klatka 2\",\"MetamodelUri\":\"http://kp.zpi3.pwr.edu.pl/\",\"InstanceId\":2500,\"InstanceUri\":\"http://temp/Klatka21f7679ec-4203-4ea2-815f-73baade6f54c\",\"RootModelElement\":{\"Id\":6654,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka\",\"Value\":null,\"Children\":[{\"Id\":6655,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/id\",\"Value\":\"2\",\"Children\":[]},{\"Id\":6656,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/type\",\"Value\":\"Duza\",\"Children\":[]},{\"Id\":6657,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/klatka/+zwierze\",\"Value\":null,\"Children\":[{\"Id\":6658,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze\",\"Value\":null,\"Children\":[{\"Id\":6659,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/id\",\"Value\":\"1\",\"Children\":[]},{\"Id\":6660,\"MetamodelElementUri\":\"http://kp.zpi3.pwr.edu.pl/zwierze/name\",\"Value\":\"ADA\",\"Children\":[]}]}]}]}}"
+  $JSONCAGE = ""
+  $JSONSENSOR = ""
 
   def index
     @cages = Array.new
-    # (2561..2564).map do |i|
-    (2561..2561).map do |i|
+    (2561..2564).map do |i|
+    # (2561..2561).map do |i|
       url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
       cage = Cage.new
       url += i.to_s
@@ -33,8 +33,8 @@ class EpxesController < ApplicationController
     end
 
     @sensors = Array.new
-    # (2555..2559).map do |i|
-    (2555..2555).map do |i|
+    (2555..2559).map do |i|
+    # (2555..2555).map do |i|
     url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
       sensor = Sensor.new
       url += i.to_s
@@ -57,41 +57,22 @@ class EpxesController < ApplicationController
   end
 
   def update_cage
-    binding.pry
     $JSONCAGE["Id"] = params[:cage][:id]
     $JSONCAGE["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
-    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
 
-    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
-    request.body = $JSONCAGE.to_json
-    begin
-    response = http.request(request)
-    rescue Timeout::Error
-      render file: "#{Rails.root}/public/404.html",  :status => 404
-    end
-
+    put $JSONCAGE
     redirect_to "/epxes"
   end
 
   def update_sensor
-    binding.pry
+    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
+    url += params[:cage][:id].to_s
+    json = fetch(url)
+    $JSONSENSOR = json
     $JSONSENSOR["Id"] = params[:cage][:id]
     $JSONSENSOR["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
 
-    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-
-    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
-    request.body = $JSONSENSOR.to_json
-    begin
-    response = http.request(request)
-    rescue Timeout::Error
-      render file: "#{Rails.root}/public/404.html",  :status => 404
-    end
-
+    put $JSONSENSOR
     redirect_to "/epxes"
   end
 
@@ -101,6 +82,20 @@ class EpxesController < ApplicationController
     response = Net::HTTP.get_response(URI.parse(url))
     data = response.body
     JSON.parse(data)
+  end
+
+  def put(body)
+    url = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+
+    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'application/json'})
+    request.body = body.to_json
+    begin
+    response = http.request(request)
+    rescue Timeout::Error
+      render file: "#{Rails.root}/public/404.html",  :status => 404
+    end
   end
 end
 
