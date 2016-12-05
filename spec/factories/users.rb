@@ -4,5 +4,9 @@ FactoryGirl.define do
     password '123456'
     first_name 'test'
     last_name 'test'
+
+    factory :admin do
+      role 'admin'
+    end
   end
 end
