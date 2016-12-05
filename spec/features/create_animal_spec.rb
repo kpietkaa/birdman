@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../support/new_animal_form'
 
 feature 'create new animal' do
   before do
@@ -6,27 +7,19 @@ feature 'create new animal' do
     login_as(user, :scope => :user)
   end
 
-  scenario 'with valid data' do
-    visit('/')
-    click_on('Add Animal')
+  let(:new_animal_form) { NewAnimalForm.new }
 
-    fill_in('Name', with: 'Reksio')
-    select('Dog', from: 'Animal type')
-    fill_in('Breed', with: 'White')
-    choose 'Male'
-    choose 'Yes'
-    click_on('Create Animal')
+  scenario 'with valid data' do
+    new_animal_form.visit_page.fill_in_with(
+      name: 'Reksio'
+    ).submit
 
     expect(page).to have_content('Animal has been created')
     expect(Animal.last.name).to eq('Reksio')
   end
 
   scenario "with invalid data" do
-    visit('/')
-    click_on('Add Animal')
-
-    click_on('Create Animal')
-
+    new_animal_form.visit_page.submit  
     expect(page).to have_content("can't be blank")
   end
 end
