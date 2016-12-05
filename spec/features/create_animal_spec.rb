@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 feature 'create new animal' do
-  scenario 'with valid data' do
+  before do
     user = FactoryGirl.create(:user)
     login_as(user, :scope => :user)
+  end
 
+  scenario 'with valid data' do
     visit('/')
     click_on('Add Animal')
 
@@ -20,9 +22,6 @@ feature 'create new animal' do
   end
 
   scenario "with invalid data" do
-    user = FactoryGirl.create(:user)
-    login_as(user, :scope => :user)
-    
     visit('/')
     click_on('Add Animal')
 
