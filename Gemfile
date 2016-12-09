@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
 
 gem 'rails', '4.2.2'
 gem 'pg'
