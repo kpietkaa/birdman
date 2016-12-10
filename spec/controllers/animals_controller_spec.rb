@@ -20,16 +20,32 @@ RSpec.describe AnimalsController, type: :controller do
       it{ should be_able_to(:create, Animal.new) }
     end
 
-    describe "not DELETE" do
-      it{ should_not be_able_to(:destroy, Animal.new) }
+    context "is not the owner of the animal" do
+      describe "DELETE" do
+        it{ should_not be_able_to(:destroy, Animal.new) }
+      end
+
+      describe "GET edit animal" do
+        it{ should_not be_able_to(:edit, Animal.new) }
+      end
+
+      describe "PUT update animal" do
+        it { should_not be_able_to(:update, Animal.new) }
+      end
     end
 
-    describe "DELETE own animals" do
-      it{ should be_able_to(:destroy, Animal.new(user: user)) }
-    end
+    context "is owner of the animal" do
+      describe "DELETE animals" do
+        it{ should be_able_to(:destroy, Animal.new(user: user)) }
+      end
 
-    describe "PUT own animal" do
-      it{ should be_able_to(:edit, Animal.new(user: user)) }
+      describe "GET edit animal" do
+        it{ should be_able_to(:edit, Animal.new(user: user)) }
+      end
+
+      describe "PUT update animal" do
+        it{ should be_able_to(:update, Animal.new(user: user)) }
+      end
     end
   end
 

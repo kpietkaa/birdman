@@ -9,7 +9,7 @@ class Ability
       can :manage, :all
     elsif user.role == 'user'
       can :create, Animal
-      can [:read, :destroy, :edit], Animal do |a|
+      can [:read, :destroy, :edit, :update], Animal do |a|
         a.user_id == user.id
       end
       can :manage, Event
