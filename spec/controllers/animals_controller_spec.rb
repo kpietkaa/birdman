@@ -35,6 +35,8 @@ RSpec.describe AnimalsController, type: :controller do
     end
 
     context "is owner of the animal" do
+      let(:animal) { FactoryGirl.create(:animal, animal_type: 3, user: user) }
+
       describe "DELETE animals" do
         it{ should be_able_to(:destroy, Animal.new(user: user)) }
       end
@@ -48,7 +50,6 @@ RSpec.describe AnimalsController, type: :controller do
       end
 
       context "valid data" do
-        let(:animal) { FactoryGirl.create(:animal, animal_type: 3, user: user) }
         let(:valid_data) { FactoryGirl.attributes_for(:animal, name: 'Maniek', user: user) }
 
         it "redirect to animals#show" do
@@ -62,6 +63,22 @@ RSpec.describe AnimalsController, type: :controller do
           expect(animal.name).to eq('Maniek')
         end
       end
+
+      context "invalid data" do
+        let(:invalid_data) { FactoryGirl.attributes_for(:animal, name: '', breed: 'White') }
+
+        it "renders :edit template" do
+          put :edit, id: animal, animal: invalid_data
+          expect(response).to render_template(:edit)
+        end
+
+        it "doesn't update animal in the database" do
+          put :edit, id: animal, animal: invalid_data
+          animal.reload
+          expect(animal.breed).not_to eq('White')
+        end
+      end
+
     end
   end
 
