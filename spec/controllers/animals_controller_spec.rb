@@ -46,6 +46,22 @@ RSpec.describe AnimalsController, type: :controller do
       describe "PUT update animal" do
         it{ should be_able_to(:update, Animal.new(user: user)) }
       end
+
+      context "valid data" do
+        let(:animal) { FactoryGirl.create(:animal, animal_type: 3, user: user) }
+        let(:valid_data) { FactoryGirl.attributes_for(:animal, name: 'Maniek', user: user) }
+
+        it "redirect to animals#show" do
+          put :update, id: animal, animal: valid_data
+          expect(response).to redirect_to(animal)
+        end
+
+        it "updates animal in the database" do
+          put :update, id: animal, animal: valid_data
+          animal.reload
+          expect(animal.name).to eq('Maniek')
+        end
+      end
     end
   end
 
