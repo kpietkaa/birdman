@@ -6,7 +6,7 @@ feature "animal page" do
   scenario "user's animal page" do
     sign_in_admin
 
-    animal = FactoryGirl.create(:animal, user: @user)
+    animal = FactoryGirl.create(:animal, animal_type: 1 ,user: @user)
     animal.user_id = @user.id
     visit("/animals/#{animal.id}")
 

@@ -12,8 +12,8 @@ RSpec.describe Animal, type: :model do
     it "allows different user to have animals with identical names" do
       user1 = FactoryGirl.create(:user)
       user2 = FactoryGirl.create(:user)
-      first_anmial = FactoryGirl.create(:animal, user: user1)
-      new_animal = FactoryGirl.create(:animal, user: user2)
+      first_anmial = FactoryGirl.create(:animal, animal_type: 3, user: user1)
+      new_animal = FactoryGirl.create(:animal, animal_type: 3, user: user2)
       expect(new_animal.valid?).to be_truthy
     end
 
