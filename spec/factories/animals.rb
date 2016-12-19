@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :animal do
-    name "MyString"
-    type 1
+    name "Reksio"
     breed "MyString"
     sex false
     castration 1

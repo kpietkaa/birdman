@@ -8,7 +8,10 @@ class Ability
     elsif user.role == 'doctor'
       can :manage, :all
     elsif user.role == 'user'
-      can :manage, Animal
+      can :create, Animal
+      can [:read, :destroy, :edit, :update], Animal do |a|
+        a.user_id == user.id
+      end
       can :manage, Event
       can :read, Visitor
       can :read, History
