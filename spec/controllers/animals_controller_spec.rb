@@ -81,7 +81,7 @@ RSpec.describe AnimalsController, type: :controller do
     end
 
     context "is not the owner of the animal" do
-      let(:animal) { FactoryGirl. create(:animal, animal_type: 3, user: user) }
+      let(:animal) { FactoryGirl.create(:animal, animal_type: 3, user: user) }
       let(:other_user) { FactoryGirl.create(:user) }
       before do
         sign_in(other_user)
@@ -101,4 +101,39 @@ RSpec.describe AnimalsController, type: :controller do
     end
   end
 
+  describe "guest user" do
+    describe "GET index" do
+      it "renders :index template" do
+        get :index
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    describe "GET new" do
+
+      it{ should_not be_able_to(:new, Animal.new) }
+
+      it "raise an authorization error" do
+        expect{ get :new }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+
+    describe "POST create" do
+      it{ should_not be_able_to(:create, Animal.new) }
+
+      it "raise an authorization error" do
+        expect{ post :create, animal: FactoryGirl.attributes_for(:animal) }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+
+    describe "PUT update" do
+      it{ should_not be_able_to(:update, Animal.new) }
+
+      it "raise an authorization error" do
+        user = FactoryGirl.create(:user)
+        expect{ put :update, id: FactoryGirl.create(:animal, animal_type: 3, user: user), animal: FactoryGirl.attributes_for(:animal, name: 'Maniek')}.to raise_error(CanCan::AccessDenied)
+      end
+    end
+
+  end
 end
