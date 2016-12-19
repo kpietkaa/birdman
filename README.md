@@ -1,5 +1,4 @@
-# README
-------
+# README [![Build Status](https://travis-ci.com/kpietkaa/birdman.svg?token=P4viZXtTN8uiyzVDpVi6&branch=master)](https://travis-ci.com/kpietkaa/birdman)
 
 Project name: **birdman**
 
