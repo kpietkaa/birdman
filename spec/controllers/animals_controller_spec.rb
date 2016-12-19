@@ -78,7 +78,26 @@ RSpec.describe AnimalsController, type: :controller do
           expect(animal.breed).not_to eq('White')
         end
       end
+    end
 
+    context "is not the owner of the animal" do
+      let(:animal) { FactoryGirl. create(:animal, animal_type: 3, user: user) }
+      let(:other_user) { FactoryGirl.create(:user) }
+      before do
+        sign_in(other_user)
+      end
+
+      describe "GET edit animal" do
+        it{ should_not be_able_to(:edit, Animal.new(user: user)) }
+      end
+
+      describe "Put update animal" do
+        it{ should_not be_able_to(:update, Animal.new(user: user)) }
+      end
+
+      describe "DELETE animal" do
+        it{ should_not be_able_to(:destroy, Animal.new(user: user)) }
+      end
     end
   end
 
