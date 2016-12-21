@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  load_and_authorize_resource
   before_action :find_event, only: [ :show, :edit, :update, :destroy, :complete ]
   before_action :find_doctor, only: [ :new, :edit ]
   before_action :find_animal, only: [ :new, :edit ]
@@ -34,12 +35,12 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to root_path
+    redirect_to root_path, notice: 'Vist has been deleted'
   end
 
   def complete
     @event.update_attribute(:completed_at, Time.now)
-    redirect_to root_path
+    redirect_to root_path, notice: 'Vist has been completed :)'
   end
 
   def current_user_role
@@ -53,11 +54,7 @@ class EventsController < ApplicationController
   end
 
   def find_event
-    unless current_user.role == 'admin' || current_user.role = 'doctor'
-      @event = Event.where(user_id: current_user.id).find(params[:id])
-    else
-      @event = Event.find(params[:id])
-    end
+    @event ||= Event.find(params[:id])
   end
 
   def change_range_to_date
@@ -107,5 +104,4 @@ class EventsController < ApplicationController
       @event.end_at = @event.start_at + duration*60
     end
   end
-
 end
