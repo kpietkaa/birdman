@@ -1,5 +1,5 @@
 class EpxesController < ApplicationController
-
+  authorize_resource :class => false
   $JSONCAGE = ""
   $JSONSENSOR = ""
   URL = "http://zpiiotdiscovery.repository-api.epx-platform.org/api/models/"
@@ -33,7 +33,7 @@ class EpxesController < ApplicationController
     $JSONCAGE["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
 
     put $JSONCAGE
-    redirect_to "/epxes"
+    redirect_to "/epxes", notice: 'Cage has been updated'
   end
 
   def update_sensor
@@ -44,7 +44,7 @@ class EpxesController < ApplicationController
     $JSONSENSOR["RootModelElement"]["Children"][2]["Children"][0]["Children"][1]["Value"] = params[:cage][:animal_name]
 
     put $JSONSENSOR
-    redirect_to "/epxes"
+    redirect_to "/epxes", notice: 'Sensor has been updated'
   end
 
   private
