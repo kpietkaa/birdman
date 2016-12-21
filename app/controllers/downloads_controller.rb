@@ -1,5 +1,4 @@
 class DownloadsController < ApplicationController
-
   def show
     respond_to do |format|
       format.pdf { send_history_pdf }
@@ -9,13 +8,17 @@ class DownloadsController < ApplicationController
   private
 
   def history_pdf
-    @event = Event.find(params[:event_id])
-    @animal_info = Animal.find(@event.animal_id)
-    @owner_info = User.find(@event.user_id)
-    @owner_address = Address.find(@owner_info.address_id)
-    create_event
-    @history = History.find(params[:history_id])
+    find_data
     HistoryPdf.new(@history, @event, @animal_info, @owner_info, @owner_address)
+  end
+
+  def find_data
+    @event ||= Event.find(params[:event_id])
+    @animal_info ||= Animal.find(@event.animal_id)
+    @owner_info ||= User.find(@event.user_id)
+    @owner_address ||= Address.find(@owner_info.address_id)
+    create_event
+    @history ||= History.find(params[:history_id])
   end
 
   def send_history_pdf
