@@ -1,63 +1,60 @@
 class HistoriesController < ApplicationController
   load_and_authorize_resource
-
+  before_action :find_event, only: [:show, :new, :create, :edit ]
+  before_action :find_data, only: [ :show, :new, :edit ]
+  before_action :create_event, only: [ :show, :new, :edit ]
+  before_action :find_history, only: [ :show, :edit, :update ]
   def index
   end
 
   def show
-    @event = Event.find(params[:event_id])
-    @animal_info = Animal.find(@event.animal_id)
-    @owner_info = User.find(@event.user_id)
-    @owner_address = Address.find(@owner_info.address_id)
-    create_event
-    @history = History.find(params[:id])
   end
 
-
   def new
-    @event = Event.find(params[:event_id])
-    @animal_info = Animal.find(@event.animal_id)
-    @owner_info = User.find(@event.user_id)
-    @owner_address = Address.find(@owner_info.address_id)
-    create_event
     @history = History.new
   end
 
   def create
-    @event = Event.find(params[:event_id])
-    @history = History.new(history_params)
+    @history ||= History.new(history_params)
     @history.event_id = @event.id
     @history.save
     @event.update_attribute(:history_id, @history.id)
     if @history.errors.any?
       render 'new'
     else
-      redirect_to root_path
+      redirect_to root_pathi, notice: 'History has been created'
     end
   end
 
   def edit
-    @event = Event.find(params[:event_id])
-    @animal_info = Animal.find(@event.animal_id)
-    @owner_info = User.find(@event.user_id)
-    @owner_address = Address.find(@owner_info.address_id)
-    create_event
-    @history = History.find(params[:id])
   end
 
   def update
-    @history = History.find(params[:id])
     @history.update(history_params)
     if @history.errors.any?
       render 'edit'
     else
-      redirect_to root_path
+      redirect_to root_path, notice: 'History has been updated'
     end
   end
 
   private
   def history_params
     params[:history].permit(:description, :surgery, :recipe)
+  end
+
+  def find_event
+    @event ||= Event.find(params[:event_id])
+  end
+
+  def find_data
+    @animal_info ||= Animal.find(@event.animal_id)
+    @owner_info ||= User.find(@event.user_id)
+    @owner_address ||= Address.find(@owner_info.address_id)
+  end
+
+  def find_history
+    @history ||= History.find(params[:id])
   end
 
   def create_event
