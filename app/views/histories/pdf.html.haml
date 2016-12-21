@@ -11,7 +11,7 @@
         = animal_info.name
       %h4
         %span Animal type:
-        = animal_info.animal_type.capitalize
+        = animal_info.animal_type.capitalize.tr('_', ' ')
       %h4
         %span Animal breed:
         = animal_info.breed.capitalize

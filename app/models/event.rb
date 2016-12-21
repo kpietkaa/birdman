@@ -16,5 +16,4 @@ class Event < ActiveRecord::Base
   def self.type_sort(type)
     includes(:user).where("event_type LIKE ?", type).order("start_at")
   end
-
 end
