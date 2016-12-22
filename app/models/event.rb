@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :vist_type
   has_many :histories
-  validates :title, :event_type, :doctor_id, :animal_id, presence: true
+  validates :event_type, :doctor_id, :animal_id, presence: true
   attr_accessor :date_range, :doctor_name, :animal_name, :owner_name
 
   def all_day_event?
@@ -16,5 +16,4 @@ class Event < ActiveRecord::Base
   def self.type_sort(type)
     includes(:user).where("event_type LIKE ?", type).order("start_at")
   end
-
 end

@@ -6,12 +6,12 @@ class AnimalsController < ApplicationController
   def index
     create_events
     @patients = Hash[@events.map{ |e| [e.id, e.animal_id] } ]
+
     if current_user.role == 'user'
       @animals = Animal.where(user_id: current_user.id).order("created_at DESC")
     else
       @animals = Animal.where(id: @patients.values)
     end
-
   end
 
   def show
@@ -55,7 +55,7 @@ class AnimalsController < ApplicationController
   end
 
   def find_animal
-      @animal = Animal.find(params[:id])
+    @animal ||= Animal.find(params[:id])
   end
 
   def animal_type_map
@@ -69,6 +69,7 @@ class AnimalsController < ApplicationController
     animal_hash = Hash[Animal.all.select{ |a| a.user_id == current_user.id}.map{ |a| [ a.name, a.id ] }]
     animals_hash = Hash[Animal.all.map{ |a| [ [a.name, a.id], a.id ] }]
     animal_owner = Hash[User.all.map{ |u| [ u.full_name, u.id ] }]
+    
     @events = Event.all.order("start_at").select{ |e|
       if current_user.role == 'doctor' && e.doctor_id == current_user.id && e.start_at.strftime('%d%m%Y') == Time.now.strftime('%d%m%Y')
         e.event_type = visit_hash.key(e.event_type)
@@ -81,6 +82,4 @@ class AnimalsController < ApplicationController
       end
     }
   end
-
-
 end

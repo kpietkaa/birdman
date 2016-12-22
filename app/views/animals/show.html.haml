@@ -6,7 +6,7 @@
       = @animal.name
     %h3
       %span Animal type:
-      = @animal.animal_type.capitalize
+      = @animal.animal_type.capitalize.tr('_', ' ')
     %h3
       %span Animal breed:
       = @animal.breed.capitalize
