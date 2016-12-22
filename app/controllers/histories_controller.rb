@@ -22,7 +22,7 @@ class HistoriesController < ApplicationController
     if @history.errors.any?
       render 'new'
     else
-      redirect_to root_pathi, notice: 'History has been created'
+      redirect_to root_path, notice: 'History has been created'
     end
   end
 

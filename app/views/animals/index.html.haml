@@ -88,14 +88,12 @@
             .col-md-5
               %li
                 %h4.event-title
-                  %span Visit Title:
-                  = event.title
+                  - unless event.event_type.nil?
+                    %span Visit type:
+                    = event.event_type
                   %span || Time to visit:
                   = distance_of_time_in_words(Time.now, event.start_at)
               %p.event-desc
-                - unless event.event_type.nil?
-                  %span Visit type:
-                  = event.event_type + ' || '
                 %span Doctor:
                 = event.doctor_name + ' || '
                 %span Beast:
