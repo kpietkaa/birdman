@@ -21,6 +21,11 @@ $ createdb -Obirdman -Eunicode birdman_development
 $ createdb -Obirdman -Eunicode birdman_test
 ```
 
+* Seed DB
+```
+$ rake db:seed
+```
+
 To run the application, write in your terminal:
 ```
 rails s
