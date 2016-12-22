@@ -2,7 +2,7 @@ json.array! @events do |event|
   date_format = event.all_day_event? ? '%Y-%m-%d' : '%Y-%m-%dT%H:%M:%S'
   json.id event.id
   if event.user_id == current_user.id || current_user.role == 'admin' || event.doctor_id == current_user.id
-    json.title event.title
+    json.title VisitType.all.select{ |v| event.event_type == v.color }.map{ |v| [v.title] }
     json.color event.event_type
   else
     json.title 'Appointment'

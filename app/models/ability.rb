@@ -12,6 +12,7 @@ class Ability
       can [:read, :destroy, :edit, :update], Animal do |a|
         a.user_id == user.id
       end
+      can :create, Event
       can [:read, :destroy, :edit, :update], Event do |e|
         e.user_id == user.id
       end

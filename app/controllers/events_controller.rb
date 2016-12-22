@@ -13,7 +13,6 @@ class EventsController < ApplicationController
 
   def new
     @event = current_user.events.build
-    authorize! :new, @event
   end
 
   def create
@@ -50,7 +49,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :date_range, :start_at, :end_at, :event_type, :doctor_id, :animal_id)
+    params.require(:event).permit(:date_range, :start_at, :end_at, :event_type, :doctor_id, :animal_id)
   end
 
   def find_event
